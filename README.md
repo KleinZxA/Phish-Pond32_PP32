@@ -3,6 +3,8 @@
 
 An ESP32 set up as an AP Redirects users that connects to it into a fake Captive portal that steals Credentials. 
 
+# FOR EDUCATIONAL PURPOSES ONLY!
+
 ## Author
 
 - [@KleinZxA](https://github.com/KleinZxA)
